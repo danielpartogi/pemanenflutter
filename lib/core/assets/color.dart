@@ -14,6 +14,8 @@ class AppColor {
   static const Color success500 = Color(0xFF10D382);
   static const Color info500 = Color(0xFF2E6EF7);
   static const Color black50 = Color(0xFFF7F7F7);
+  static const Color black100 = Color(0xFFE7E7E7);
   static const Color black200 = Color(0xFFD0D0D0);
+  static const Color black500 = Color(0xFF898989);
 
 }

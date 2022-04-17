@@ -5,7 +5,7 @@ import 'package:pemanen_flutter/core/assets/color.dart';
 import 'package:pemanen_flutter/core/assets/image_name.dart';
 import 'package:pemanen_flutter/core/assets/strings.dart';
 import 'package:pemanen_flutter/core/assets/style.dart';
-import 'package:pemanen_flutter/presentation/harvester/choose_line_widget.dart';
+import 'package:pemanen_flutter/presentation/harvester/bottomsheet/add_block_widget.dart';
 
 class HarvesterDetail extends StatelessWidget {
   const HarvesterDetail({Key? key}) : super(key: key);
@@ -13,6 +13,15 @@ class HarvesterDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Container(
+        margin: const EdgeInsets.only(bottom: 24),
+        child: FloatingActionButton(
+            child: const Icon(Icons.add),
+            backgroundColor: AppColor.primary500,
+            onPressed: () {
+              _addBlock(context);
+            }),
+      ),
       backgroundColor: AppColor.white,
       appBar: AppBar(
         backgroundColor: AppColor.primary500,
@@ -41,8 +50,8 @@ class HarvesterDetail extends StatelessWidget {
               height: 44,
             ),
             _buildDivider(),
-            // _notFoundBlock(),
-ChooseLineWidget()
+            _notFoundBlock(),
+// ChooseLineWidget()
           ],
         ),
       ),
@@ -183,21 +192,33 @@ ChooseLineWidget()
   Widget _notFoundBlock() {
     return Expanded(
         child: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image(image: AppImage.loadLocalImage(ImageName.notFoundBlock)),
-          const SizedBox(
-            height: 24,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(image: AppImage.loadLocalImage(ImageName.notFoundBlock)),
+              const SizedBox(
+                height: 24,
+              ),
+              Text(
+                "Mutu Ancak Masih \nKosong",
+                style: AppStyle.body(
+                    textColor: AppColor.mediumEmphasis,
+                    weight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              )
+            ],
           ),
-          Text(
-            "Mutu Ancak Masih \nKosong",
-            style: AppStyle.body(
-                textColor: AppColor.mediumEmphasis, weight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          )
-        ],
-      ),
-    ));
+        ));
+  }
+
+  void _addBlock(BuildContext context) {
+    showModalBottomSheet(
+      enableDrag: false,
+        isScrollControlled: true,
+        isDismissible: false,
+        backgroundColor: Colors.transparent,
+        context: context, builder: (context) {
+      return WillPopScope(child: const AddBlockWidget(), onWillPop: () async => false,);
+    });
   }
 }

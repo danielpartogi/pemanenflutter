@@ -1,0 +1,1 @@
+enum CheckerModelEnum { tunggal, kananKiri }

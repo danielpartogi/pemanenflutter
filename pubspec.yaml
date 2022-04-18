@@ -38,6 +38,7 @@ dependencies:
   auto_route: 3.2.3
   numberpicker: ^2.1.1
   scroll_snap_list: ^0.8.5
+  flutter_bloc: ^8.0.1
 
 dev_dependencies:
   flutter_test:

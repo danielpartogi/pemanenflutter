@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:pemanen_flutter/core/app_image.dart';
 import 'package:pemanen_flutter/core/assets/color.dart';
 import 'package:pemanen_flutter/core/assets/image_name.dart';
 import 'package:pemanen_flutter/core/assets/strings.dart';
 import 'package:pemanen_flutter/core/assets/style.dart';
+import 'package:pemanen_flutter/data/block.dart';
 import 'package:pemanen_flutter/presentation/harvester/bottomsheet/add_block_widget.dart';
 
+import 'harvester_detail_list.dart';
+
 class HarvesterDetail extends StatelessWidget {
-  const HarvesterDetail({Key? key}) : super(key: key);
+  HarvesterDetail({Key? key}) : super(key: key);
+
+  final GlobalKey<HarvesterDetailListState> _harvesterListKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,7 @@ class HarvesterDetail extends StatelessWidget {
             child: const Icon(Icons.add),
             backgroundColor: AppColor.primary500,
             onPressed: () {
-              _addBlock(context);
+              _addUpdateBlock(context);
             }),
       ),
       backgroundColor: AppColor.white,
@@ -50,8 +54,12 @@ class HarvesterDetail extends StatelessWidget {
               height: 44,
             ),
             _buildDivider(),
-            _notFoundBlock(),
-// ChooseLineWidget()
+            HarvesterDetailList(
+              key: _harvesterListKey,
+              onUpdate: (value, index) {
+                _addUpdateBlock(context, block: value, index: index);
+              },
+            )
           ],
         ),
       ),
@@ -61,7 +69,7 @@ class HarvesterDetail extends StatelessWidget {
   List<Widget> _blockInfo() {
     return [
       Text(
-        "Block Panen Kemarin",
+        Strings.blockYesterday,
         style: AppStyle.label(weight: FontWeight.bold),
       ),
       _buildPastBlock()
@@ -87,11 +95,11 @@ class HarvesterDetail extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "Sulaiman Johan",
+                Strings.dummyName,
                 style: AppStyle.headingMedium(),
               ),
               Text(
-                "293019293",
+                Strings.dummyNumber,
                 style: AppStyle.body(textColor: AppColor.mediumEmphasis),
               )
             ],
@@ -103,7 +111,7 @@ class HarvesterDetail extends StatelessWidget {
 
   Container _buildPastBlock() {
     return Container(
-      margin: EdgeInsets.only(top: 8),
+      margin: const EdgeInsets.only(top: 8),
       height: 32,
       child: ListView.builder(
           itemCount: 5,
@@ -111,7 +119,7 @@ class HarvesterDetail extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              margin: EdgeInsets.only(right: 4),
+              margin: const EdgeInsets.only(right: 4),
               width: 46,
               height: 32,
               child: Center(
@@ -122,7 +130,7 @@ class HarvesterDetail extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                   border: Border.all(color: AppColor.primary500),
-                  borderRadius: BorderRadius.all(Radius.circular(100))),
+                  borderRadius: const BorderRadius.all(Radius.circular(100))),
             );
           }),
     );
@@ -137,7 +145,7 @@ class HarvesterDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Panen Tanggal",
+                Strings.dateHarvest,
                 style: AppStyle.label(weight: FontWeight.w700),
               ),
               const SizedBox(
@@ -150,7 +158,7 @@ class HarvesterDetail extends StatelessWidget {
                     width: 8,
                   ),
                   Text(
-                    "10 Agustus 2021",
+                    Strings.dummyDate,
                     style: AppStyle.label(),
                   ),
                 ],
@@ -164,14 +172,14 @@ class HarvesterDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Panen Tanggal",
+                Strings.harvestResult,
                 style: AppStyle.label(weight: FontWeight.w700),
               ),
               const SizedBox(
                 height: 8,
               ),
               Text(
-                "2.31 Ha 5.800 Kg 784 Jjg",
+                Strings.dummyHarvestResult,
                 style: AppStyle.label(),
               ),
             ],
@@ -189,36 +197,21 @@ class HarvesterDetail extends StatelessWidget {
     );
   }
 
-  Widget _notFoundBlock() {
-    return Expanded(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(image: AppImage.loadLocalImage(ImageName.notFoundBlock)),
-              const SizedBox(
-                height: 24,
-              ),
-              Text(
-                "Mutu Ancak Masih \nKosong",
-                style: AppStyle.body(
-                    textColor: AppColor.mediumEmphasis,
-                    weight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              )
-            ],
-          ),
-        ));
-  }
-
-  void _addBlock(BuildContext context) {
+  void _addUpdateBlock(BuildContext context, {Block? block, int? index}) {
     showModalBottomSheet(
-      enableDrag: false,
+        enableDrag: false,
         isScrollControlled: true,
         isDismissible: false,
         backgroundColor: Colors.transparent,
-        context: context, builder: (context) {
-      return WillPopScope(child: const AddBlockWidget(), onWillPop: () async => false,);
-    });
+        context: context,
+        builder: (context) {
+          return WillPopScope(
+            child: AddBlockWidget(
+              block: block,
+              index: index,
+            ),
+            onWillPop: () async => false,
+          );
+        }).then((value) => {_harvesterListKey.currentState?.refreshList()});
   }
 }

@@ -1,12 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pemanen_flutter/core/assets/color.dart';
+import 'package:pemanen_flutter/core/assets/strings.dart';
 import 'package:pemanen_flutter/core/assets/style.dart';
 
 class ChooseBlockWidget extends StatelessWidget {
-   ChooseBlockWidget({Key? key, this.onSelectBlock}) : super(key: key);
+   const ChooseBlockWidget({Key? key, this.onSelectBlock}) : super(key: key);
 
-  Function(int index)? onSelectBlock;
+  final Function(int index)? onSelectBlock;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ChooseBlockWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Block : A$index",
+                    "${Strings.block} : A$index ",
                     style: AppStyle.body(weight: FontWeight.w700),
                   ),
                   const Icon(Icons.chevron_right, color: AppColor.black500,)

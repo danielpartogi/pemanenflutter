@@ -2,6 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:pemanen_flutter/core/assets/color.dart';
 
 class AppStyle {
+
+  static TextStyle headingRegular({Color textColor = AppColor.highEmphasis}) =>
+      TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 16,
+          height: 1.2,
+          fontStyle: FontStyle.normal,
+          color: textColor);
+
   static TextStyle headingMedium({Color textColor = AppColor.highEmphasis}) =>
       TextStyle(
           fontWeight: FontWeight.w700,

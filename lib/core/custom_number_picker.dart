@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infinite_listview/infinite_listview.dart';
@@ -118,7 +117,7 @@ class _NumberPickerState extends State<CustomNumberPicker> {
       }
     }
     Future.delayed(
-      Duration(milliseconds: 100),
+      const Duration(milliseconds: 100),
           () => _maybeCenterValue(),
     );
   }
@@ -198,7 +197,7 @@ class _NumberPickerState extends State<CustomNumberPicker> {
     final themeData = Theme.of(context);
     final defaultStyle = widget.textStyle ?? themeData.textTheme.bodyText2;
     final selectedStyle = widget.selectedTextStyle ??
-        themeData.textTheme.headline5?.copyWith(color: themeData.accentColor);
+        themeData.textTheme.headline5;
 
     final value = _intValueFromIndex(index % itemCount);
     final isExtra = !widget.infiniteLoop &&
@@ -208,7 +207,7 @@ class _NumberPickerState extends State<CustomNumberPicker> {
 
 
     final child = isExtra
-        ? SizedBox.shrink()
+        ? const SizedBox.shrink()
         : Text(
       _getDisplayedValue(value),
       style: itemStyle,
@@ -221,7 +220,7 @@ class _NumberPickerState extends State<CustomNumberPicker> {
       child: child,
       decoration: widget.value == value ?BoxDecoration(
           border: Border.all(color: AppColor.primary500, width: 2.0),
-          borderRadius: BorderRadius.all(Radius.circular(4))
+          borderRadius: const BorderRadius.all(Radius.circular(4))
       ) : null
     );
   }
@@ -229,10 +228,10 @@ class _NumberPickerState extends State<CustomNumberPicker> {
   TextStyle? getStyle(int value,int valueToCheck, TextStyle? currentStyle) {
 
     var newValue = valueToCheck - value;
-    var lessOneStyle = currentStyle?.copyWith(color: Color(0xFFFF4D35));
-    var lessTwoStyle = currentStyle?.copyWith(color: Color(0xFFFFA785));
-    var moreOneStyle = currentStyle?.copyWith(color: Color(0xFF7B8591));
-    var moreTwoStyle = currentStyle?.copyWith(color: Color(0xFFBFC4CA));
+    var lessOneStyle = currentStyle?.copyWith(color: const Color(0xFFFF4D35));
+    var lessTwoStyle = currentStyle?.copyWith(color: const Color(0xFFFFA785));
+    var moreOneStyle = currentStyle?.copyWith(color: const Color(0xFF7B8591));
+    var moreTwoStyle = currentStyle?.copyWith(color: const Color(0xFFBFC4CA));
 
     if (newValue < -1){
       return lessTwoStyle;
@@ -278,7 +277,7 @@ class _NumberPickerState extends State<CustomNumberPicker> {
       }
       _scrollController.animateTo(
         index * itemExtent,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutCubic,
       );
     }

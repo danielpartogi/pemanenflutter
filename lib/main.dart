@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:pemanen_flutter/core/assets/color.dart';
+import 'package:pemanen_flutter/core/debouncer.dart';
 
 import 'core/assets/style.dart';
 import 'core/router/app_router.gr.dart';
+import 'data/local/local_value.dart';
 
 void main() {
   runApp(MyApp());
@@ -53,17 +56,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  final _debouncer = Debouncer();
+
+  @override
+  void dispose() {
+    LocalValue.clearData();
+    _debouncer.dispose();
+    super.dispose();
   }
 
   @override
@@ -76,20 +76,31 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColor.primary500,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("Pemanen"),
+        title: const Text("Pemanen"),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: ElevatedButton(
-          child: Text(
-            "Detail Pemanen",
-            style: AppStyle.body(),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(AppColor.primary500)),
+          child: SizedBox(
+            height: 48,
+            width: 180,
+            child: Center(
+              child: Text(
+                "Detail Pemanen",
+                style: AppStyle.headingRegular(textColor: AppColor.white),
+              ),
+            ),
           ),
           onPressed: () {
-            AutoRouter.of(context).push(const HarvesterDetail());
+            _debouncer.run(() {
+              AutoRouter.of(context).push(HarvesterDetail());
+            });
           },
         ),
       ),

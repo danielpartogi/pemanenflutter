@@ -278,7 +278,7 @@ packages:
     source: hosted
     version: "4.0.0"
   infinite_listview:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: infinite_listview
       url: "https://pub.dartlang.org"
@@ -347,13 +347,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  numberpicker:
-    dependency: "direct main"
-    description:
-      name: numberpicker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.1"
   package_config:
     dependency: transitive
     description:
@@ -396,13 +389,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
-  scroll_snap_list:
-    dependency: "direct main"
-    description:
-      name: scroll_snap_list
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.5"
   shelf:
     dependency: transitive
     description:
